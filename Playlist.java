@@ -1,25 +1,43 @@
 import java.util.ArrayList;
 
 class Playlist {
-    String nome;
-    ArrayList<Musica> musicas = new ArrayList<>(); // Inicializa a lista
+    private String nome;
+    private ArrayList<Musica> musicas = new ArrayList<>();
 
-    void adicionarMusica(Musica musica) {
-        this.musicas.add(musica);
-        System.out.println("✅ Música '" + musica.titulo + "' adicionada à playlist!");
+    public Playlist() {}
+
+    public Playlist(String nome) {
+        setNome(nome);
     }
 
-    void removerMusica(int indice) {
+    public String getNome() { return nome; }
+
+    public void setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome;
+        }
+    }
+
+    public void adicionarMusica(Musica musica) {
+        if (musica != null) {
+            this.musicas.add(musica);
+            System.out.println("✅ Música '" + musica.getTitulo() + "' adicionada!");
+        } else {
+            System.out.println("⚠️ Não é possível adicionar uma música nula!");
+        }
+    }
+
+    public void removerMusica(int indice) {
         if (indice >= 0 && indice < musicas.size()) {
             Musica removida = musicas.remove(indice);
-            System.out.println("❌ Música '" + removida.titulo + "' removida.");
+            System.out.println("❌ Música '" + removida.getTitulo() + "' removida.");
         } else {
             System.out.println("⚠️ Índice inválido!");
         }
     }
 
-    void listarMusicas() {
-        System.out.println("\n--- Músicas da Playlist: " + this.nome + " ---");
+    public void listarMusicas() {
+        System.out.println("\n--- Playlist: " + this.nome + " ---");
         if (musicas.isEmpty()) {
             System.out.println("Playlist vazia.");
         } else {
@@ -30,15 +48,15 @@ class Playlist {
         }
     }
 
-    int getDuracaoTotal() {
+    public int getDuracaoTotal() {
         int total = 0;
         for (Musica m : musicas) {
-            total += m.duracaoSegundos;
+            total += m.getDuracaoSegundos();
         }
         return total;
     }
 
-    int getQuantidadeMusicas() {
+    public int getQuantidadeMusicas() {
         return musicas.size();
     }
 }
