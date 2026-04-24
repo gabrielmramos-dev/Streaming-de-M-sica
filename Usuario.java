@@ -1,36 +1,39 @@
 import java.util.ArrayList;
 
-class Usuario {
-    private String nome;
-    private ArrayList<Playlist> playlists = new ArrayList<>();
+public class Usuario {
+    // protected: subclasses conseguem acessar diretamente
+    protected String nome;
+    protected String email;
+    protected ArrayList<Playlist> playlists;
+    protected ArrayList<Musica> historicoReproducao;
 
-    public Usuario() {}
-
-    public Usuario(String nome) {
+    public Usuario(String nome, String email) {
         setNome(nome);
+        setEmail(email);
+        this.playlists = new ArrayList<>();
+        this.historicoReproducao = new ArrayList<>();
     }
 
-    public String getNome() { return nome; }
-
-    public void setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty()) {
-            this.nome = nome;
+    // Método base de reprodução - será sobrescrito pelas subclasses
+    public void reproduzirMusica(Musica musica) {
+        if (musica == null) {
+            System.out.println("⚠️ Música inválida!");
+            return;
         }
+        System.out.println("🎵 Reproduzindo: " + musica.getTitulo() + " - " + musica.getArtista());
+        historicoReproducao.add(musica);
     }
 
-    public void criarPlaylist(String nomePlaylist) {
-        if (nomePlaylist != null && !nomePlaylist.trim().isEmpty()) {
-            Playlist nova = new Playlist(nomePlaylist);
-            this.playlists.add(nova);
-            System.out.println("✅ Playlist '" + nomePlaylist + "' criada!");
+    public void exibirHistorico() {
+        System.out.println("\n--- HISTÓRICO DE REPRODUÇÃO ---");
+        if (historicoReproducao.isEmpty()) {
+            System.out.println("Nenhuma música reproduzida ainda.");
+            return;
         }
-    }
-
-    public Playlist getPlaylist(int indice) {
-        if (indice >= 0 && indice < playlists.size()) {
-            return playlists.get(indice);
+        for (int i = 0; i < historicoReproducao.size(); i++) {
+            System.out.print((i + 1) + ". ");
+            historicoReproducao.get(i).exibir();
         }
-        return null;
     }
 
     public void listarPlaylists() {
@@ -42,6 +45,34 @@ class Usuario {
                 System.out.println((i + 1) + ". " + playlists.get(i).getNome() +
                         " (" + playlists.get(i).getQuantidadeMusicas() + " músicas)");
             }
+        }
+    }
+
+    public Playlist getPlaylist(int indice) {
+        if (indice >= 0 && indice < playlists.size()) {
+            return playlists.get(indice);
+        }
+        return null;
+    }
+
+    // Getters e Setters
+    public String getNome() { return nome; }
+
+    public void setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty()) {
+            this.nome = nome.trim();
+        } else {
+            System.out.println("Erro: Nome inválido!");
+        }
+    }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) {
+        if (email != null && !email.trim().isEmpty()) {
+            this.email = email.trim();
+        } else {
+            System.out.println("Erro: Email inválido!");
         }
     }
 }
