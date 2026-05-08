@@ -31,7 +31,7 @@ public class UsuarioFree extends Usuario {
             System.out.println("💎 Assine Premium para criar playlists ilimitadas!");
             return;
         }
-        Playlist playlist = new Playlist(nome);
+        Playlist playlist = new PlaylistPersonalizada(nome);
         playlists.add(playlist);
         System.out.println("✅ Playlist '" + nome + "' criada! (" + playlists.size() + "/" + MAX_PLAYLISTS + ")");
     }

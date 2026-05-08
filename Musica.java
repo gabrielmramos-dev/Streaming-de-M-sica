@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 
-class Musica {
+public class Musica {
     private String titulo;
     private String artista;
     private int duracaoSegundos;

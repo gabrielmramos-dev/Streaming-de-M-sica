@@ -26,7 +26,7 @@ public class UsuarioPremium extends Usuario {
 
     public void criarPlaylist(String nome) {
         // Sem limite para Premium
-        Playlist playlist = new Playlist(nome);
+        Playlist playlist = new PlaylistPersonalizada(nome);
         playlists.add(playlist);
         System.out.println("✅ Playlist '" + nome + "' criada! (Total: " + playlists.size() + ")");
     }

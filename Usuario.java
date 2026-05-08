@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Usuario {
+public abstract class Usuario {
     // protected: subclasses conseguem acessar diretamente
     protected String nome;
     protected String email;
@@ -55,6 +55,12 @@ public class Usuario {
         return null;
     }
 
+    public final void validarEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Email inválido!");
+        }
+    }
+
     // Getters e Setters
     public String getNome() { return nome; }
 
@@ -74,5 +80,13 @@ public class Usuario {
         } else {
             System.out.println("Erro: Email inválido!");
         }
+    }
+
+    public ArrayList<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public ArrayList<Musica> getHistoricoReproducao() {
+        return historicoReproducao;
     }
 }

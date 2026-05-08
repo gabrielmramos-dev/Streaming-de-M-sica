@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 
-class Playlist {
-    private String nome;
-    private ArrayList<Musica> musicas = new ArrayList<>();
+public abstract class Playlist {
+    protected String nome;
+    protected ArrayList<Musica> musicas = new ArrayList<>();
+    protected String descricao;
 
     public Playlist() {}
 
@@ -33,6 +34,17 @@ class Playlist {
             System.out.println("❌ Música '" + removida.getTitulo() + "' removida.");
         } else {
             System.out.println("⚠️ Índice inválido!");
+        }
+    }
+
+    public void reproduzir() {
+        System.out.println("🎵 Reproduzindo playlist: " + nome);
+        if (musicas.isEmpty()) {
+            System.out.println("  (Playlist vazia)");
+        } else {
+            for (Musica m : musicas) {
+                System.out.println("  ▶ " + m.getTitulo());
+            }
         }
     }
 
