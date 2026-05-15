@@ -1,3 +1,11 @@
+package br.com.streaming.principal;
+
+import br.com.streaming.modelo.Musica;
+import br.com.streaming.modelo.PlaylistAutomatica;
+import br.com.streaming.modelo.Usuario;
+import br.com.streaming.modelo.UsuarioFree;
+import br.com.streaming.modelo.UsuarioPremium;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -173,11 +181,6 @@ public class StreamingMusica {
         
         PlaylistAutomatica pa = new PlaylistAutomatica(nome, criterio);
         pa.atualizar(todasMusicas);
-        // Adiciona à lista de playlists do usuário (polimorfismo: PlaylistAutomatica é uma Playlist)
-        // Note: Usuario doesn't have a direct 'addPlaylist' method in the provided code, but it has a protected field 'playlists'
-        // However, I should probably add a method to Usuario or just use reflection/protected access if they were in same package.
-        // Wait, Playlist is protected in Usuario.
-        // Let's check if I can access it. Yes, they are in the same default package.
         usuarioLogado.getPlaylists().add(pa);
         System.out.println("✅ Playlist automática adicionada às suas playlists!");
     }
@@ -188,7 +191,7 @@ public class StreamingMusica {
         int id = Integer.parseInt(scanner.nextLine()) - 1;
         
         if (id >= 0 && id < todasMusicas.size()) {
-            ((UsuarioPremium)usuarioLogado).baixarMusica(todasMusicas.get(id));
+            ((UsuarioPremium)usuarioLogado).baixar(todasMusicas.get(id));
         } else {
             System.out.println("❌ Música inválida!");
         }

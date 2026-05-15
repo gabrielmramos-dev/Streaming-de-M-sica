@@ -1,8 +1,11 @@
+package br.com.streaming.modelo;
+
+import br.com.streaming.util.FormatadorTempo;
+import br.com.streaming.util.Validador;
 import java.util.Arrays;
 import java.util.List;
 
-public class Musica {
-    private String titulo;
+public class Musica extends ItemReproducao {
     private String artista;
     private int duracaoSegundos;
     private String genero;
@@ -12,26 +15,16 @@ public class Musica {
     public Musica() {}
 
     public Musica(String titulo, String artista, int duracaoSegundos, String genero) {
-        setTitulo(titulo);
+        super(titulo);
         setArtista(artista);
         setDuracaoSegundos(duracaoSegundos);
         setGenero(genero);
     }
 
-    public String getTitulo() { return titulo; }
-
-    public void setTitulo(String titulo) {
-        if (titulo != null && !titulo.trim().isEmpty()) {
-            this.titulo = titulo.trim();
-        } else {
-            System.out.println("Erro: Título inválido!");
-        }
-    }
-
     public String getArtista() { return artista; }
 
     public void setArtista(String artista) {
-        if (artista != null && !artista.trim().isEmpty()) {
+        if (Validador.isStringValida(artista)) {
             this.artista = artista.trim();
         } else {
             System.out.println("Erro: Artista inválido!");
@@ -54,7 +47,7 @@ public class Musica {
         if (genero != null) {
             for (String g : GENEROS_VALIDOS) {
                 if (g.equalsIgnoreCase(genero)) {
-                    this.genero = g; // Salva com a capitalização correta da lista
+                    this.genero = g;
                     return;
                 }
             }
@@ -64,13 +57,7 @@ public class Musica {
 
     public void exibir() {
         System.out.printf("Musica: %s | Artista: %s | Duracao: %s | Genero: %s%n",
-                this.titulo, this.artista, getDuracaoFormatada(), this.genero);
-    }
-
-    public String getDuracaoFormatada() {
-        int minutos = this.duracaoSegundos / 60;
-        int segundosRestantes = this.duracaoSegundos % 60;
-        return String.format("%d:%02d", minutos, segundosRestantes);
+                this.titulo, this.artista, FormatadorTempo.formatar(this.duracaoSegundos), this.genero);
     }
 
     public boolean contemTitulo(String busca) {
@@ -79,5 +66,25 @@ public class Musica {
 
     public boolean contemArtista(String busca) {
         return this.artista != null && this.artista.toLowerCase().contains(busca.toLowerCase());
+    }
+
+    @Override
+    public void reproduzir() {
+        System.out.println("▶ Reproduzindo música: " + this.titulo + " - " + this.artista);
+    }
+
+    @Override
+    public void pausar() {
+        System.out.println("⏸ Música pausada: " + this.titulo);
+    }
+
+    @Override
+    public void parar() {
+        System.out.println("⏹ Música parada: " + this.titulo);
+    }
+
+    @Override
+    public int getDuracaoTotal() {
+        return this.duracaoSegundos;
     }
 }

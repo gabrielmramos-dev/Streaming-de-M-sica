@@ -1,7 +1,9 @@
+package br.com.streaming.modelo;
+
+import br.com.streaming.util.Validador;
 import java.util.ArrayList;
 
 public abstract class Usuario {
-    // protected: subclasses conseguem acessar diretamente
     protected String nome;
     protected String email;
     protected ArrayList<Playlist> playlists;
@@ -14,13 +16,12 @@ public abstract class Usuario {
         this.historicoReproducao = new ArrayList<>();
     }
 
-    // Método base de reprodução - será sobrescrito pelas subclasses
     public void reproduzirMusica(Musica musica) {
         if (musica == null) {
             System.out.println("⚠️ Música inválida!");
             return;
         }
-        System.out.println("🎵 Reproduzindo: " + musica.getTitulo() + " - " + musica.getArtista());
+        musica.reproduzir();
         historicoReproducao.add(musica);
     }
 
@@ -55,17 +56,10 @@ public abstract class Usuario {
         return null;
     }
 
-    public final void validarEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("Email inválido!");
-        }
-    }
-
-    // Getters e Setters
     public String getNome() { return nome; }
 
     public void setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty()) {
+        if (Validador.isStringValida(nome)) {
             this.nome = nome.trim();
         } else {
             System.out.println("Erro: Nome inválido!");
@@ -75,10 +69,11 @@ public abstract class Usuario {
     public String getEmail() { return email; }
 
     public void setEmail(String email) {
-        if (email != null && !email.trim().isEmpty()) {
+        try {
+            Validador.validarEmail(email);
             this.email = email.trim();
-        } else {
-            System.out.println("Erro: Email inválido!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
         }
     }
 
